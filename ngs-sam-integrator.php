@@ -2,11 +2,11 @@
 
 /*
 Plugin Name: NGS SAM Integrator
-Plugin URI: http://www.radio4gamers.com
+Plugin URI: http://www.netguysteve.com/sam-integrator/
 Description: Plug-In to integrate SAM Broadcaster with WordPress
 Version: 1.0.1
 Author: Steve Williams
-Author URI: http://www.radio4gamers.com
+Author URI: http://www.netguysteve.com/
 License: GPLv2
 */
 
