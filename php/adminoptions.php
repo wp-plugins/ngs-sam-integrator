@@ -7,6 +7,12 @@
  */
 ?>
 <div class=wrap>
+<?php // Paypal Donation Code ?>
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top"><input type="hidden" name="cmd" value="_s-xclick" />
+<input type="hidden" name="hosted_button_id" value="9T8FRUACJJM9Y" />
+<input type="image" alt="PayPal - The safer, easier way to pay online!" name="submit" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" />
+<img alt="" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1" border="0" /></form>
+    
 <form method="post" action="<?php echo $_SERVER["REQUEST_URI"]; ?>">
 <img src="<?php echo $ngs_sam_logo; ?>" />
 <h2>Net Guy Steve's SAM Integrator</h2>
