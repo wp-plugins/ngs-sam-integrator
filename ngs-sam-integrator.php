@@ -273,5 +273,4 @@ if( isset( $ngs_sam_integrator ) ) {
 	add_shortcode( 'samplaylist', array( &$ngs_sam_integrator, 'display_play_list' ) );
 	add_shortcode( 'samtoprequests', array( &$ngs_sam_integrator, 'display_top_requests' ) );
 	
-	require_once dirname( __FILE__ ).'/php/widgets.php';
 }

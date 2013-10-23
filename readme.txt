@@ -4,7 +4,7 @@ Donate link: http://www.netguysteve.com/sam-integrator
 Tags: SAM Broadcaster, Internet Radio, Streaming, Broadcasting
 Requires at least: 3.5.0
 Tested up to: 3.6.1
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -126,7 +126,15 @@ Broadcaster client.
 = 1.0.1 =
 Initial Public Release
 
+= 1.0.2 =
+Removed some preliminary test code that was inadvertently included in the initial
+release.  The code in question generated a blank widget.  Widgets are still being
+worked for a later release (Likely the 1.1 release).
+
 == Upgrade Notice ==
 
 = 1.0.1 =
 Initial Stable Release
+
+= 1.0.2 =
+NON-CRITICAL : Removal of Blank Widget
