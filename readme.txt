@@ -4,7 +4,7 @@ Donate link: http://www.netguysteve.com/sam-integrator
 Tags: SAM Broadcaster, Internet Radio, Streaming, Broadcasting
 Requires at least: 3.5.0
 Tested up to: 3.7
-Stable tag: 1.0.2
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,9 @@ using the MySQL database system.  Other database systems have not been tested,
 nor can this plug-in be verified to support them.  If you find the plug-in
 works as-is with other the other database systems which SAM supports, please
 let me know.
+
+Detailed documentation and information about upcoming features available at [the 
+development site](http://www.netguysteve.com "Net Guy Steve").
 
 == Installation ==
 
@@ -121,6 +124,12 @@ IP addresses you permit.  You need to add the IP address of your webserver
 list.  You can find this under "File->Config->Request Policy" in your SAM 
 Broadcaster client.
 
+== Screenshots ==
+
+1. The Top Requests Widget (Available in Version 1.1.0 and Higher)
+2. The Recently Played Tracks Widget (Available in Version 1.1.0 and Higher)
+3. The Upcoming Tracks Widget (Available in Version 1.1.0 and Higher)
+
 == Changelog ==
 
 = 1.0.1 =
@@ -131,6 +140,13 @@ Removed some preliminary test code that was inadvertently included in the initia
 release.  The code in question generated a blank widget.  Widgets are still being
 worked for a later release (Likely the 1.1 release).
 
+= 1.1.0 =
+ - Added songsearch shortcode.
+ - Added toplist shortcode.
+ - Added Top Requests Widget
+ - Added Upcoming Tracks Widget
+ - Added Recently Played Tracks Widget (Includes currently playing track)
+
 == Upgrade Notice ==
 
 = 1.0.1 =
@@ -138,3 +154,6 @@ Initial Stable Release
 
 = 1.0.2 =
 NON-CRITICAL : Removal of Blank Widget
+
+= 1.1.0 =
+3 New Widgets and 2 New Shortcodes Introduced
