@@ -94,12 +94,12 @@ function ngs_status_code( $code, $requested_song, $request_status_message, $ngs_
 	switch( $code )
 	{
 		case 601 : $request_status_message = $ngs_options['status601']; break;
-		case 602 : $request_status_message = $ngs_options['status601']; break;
-		case 603 : $request_status_message = $ngs_options['status601']; break;
-		case 604 : $request_status_message = $ngs_options['status601']; break;
-		case 605 : $request_status_message = $ngs_options['status601']; break;
-		case 606 : $request_status_message = $ngs_options['status601']; break;
-		case 609 : $request_status_message = $ngs_options['status601']; break;
+		case 602 : $request_status_message = $ngs_options['status602']; break;
+		case 603 : $request_status_message = $ngs_options['status603']; break;
+		case 604 : $request_status_message = $ngs_options['status604']; break;
+		case 605 : $request_status_message = $ngs_options['status605']; break;
+		case 606 : $request_status_message = $ngs_options['status606']; break;
+		case 609 : $request_status_message = $ngs_options['status609']; break;
 		default : break;
 	}
 	require dirname(__FILE__).'/request-failure.php';
