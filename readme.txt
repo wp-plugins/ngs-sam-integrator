@@ -4,7 +4,7 @@ Donate link: http://www.netguysteve.com/sam-integrator
 Tags: SAM Broadcaster, Internet Radio, Streaming, Broadcasting
 Requires at least: 3.5.0
 Tested up to: 3.8
-Stable tag: 1.1.1
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -132,6 +132,9 @@ Broadcaster client.
 
 == Changelog ==
 
+= 1.2.0 =
+ - Added Customizable Status Messages (Feature Request from JTMVK )
+
 = 1.1.1 =
 BUGFIX: Fixed a bug in the error trapping logic.
 
@@ -151,6 +154,9 @@ worked for a later release (Likely the 1.1 release).
 Initial Public Release
 
 == Upgrade Notice ==
+
+= 1.2.0 =
+Added Customizable Status Messages
 
 = 1.1.1 =
 Fixed an error in the error trapping of SAM errors
