@@ -3,8 +3,8 @@ Contributors: netguysteve
 Donate link: http://www.netguysteve.com/sam-integrator
 Tags: SAM Broadcaster, Internet Radio, Streaming, Broadcasting
 Requires at least: 3.5.0
-Tested up to: 3.7
-Stable tag: 1.1.0
+Tested up to: 3.8
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -132,13 +132,8 @@ Broadcaster client.
 
 == Changelog ==
 
-= 1.0.1 =
-Initial Public Release
-
-= 1.0.2 =
-Removed some preliminary test code that was inadvertently included in the initial
-release.  The code in question generated a blank widget.  Widgets are still being
-worked for a later release (Likely the 1.1 release).
+= 1.1.1 =
+BUGFIX: Fixed a bug in the error trapping logic.
 
 = 1.1.0 =
  - Added songsearch shortcode.
@@ -147,13 +142,25 @@ worked for a later release (Likely the 1.1 release).
  - Added Upcoming Tracks Widget
  - Added Recently Played Tracks Widget (Includes currently playing track)
 
-== Upgrade Notice ==
+= 1.0.2 =
+Removed some preliminary test code that was inadvertently included in the initial
+release.  The code in question generated a blank widget.  Widgets are still being
+worked for a later release (Likely the 1.1 release).
 
 = 1.0.1 =
-Initial Stable Release
+Initial Public Release
+
+== Upgrade Notice ==
+
+= 1.1.1 =
+Fixed an error in the error trapping of SAM errors
+
+= 1.1.0 =
+3 New Widgets and 2 New Shortcodes Introduced
 
 = 1.0.2 =
 NON-CRITICAL : Removal of Blank Widget
 
-= 1.1.0 =
-3 New Widgets and 2 New Shortcodes Introduced
+= 1.0.1 =
+Initial Stable Release
+
