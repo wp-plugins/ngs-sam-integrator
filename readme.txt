@@ -4,7 +4,7 @@ Donate link: http://www.netguysteve.com/sam-integrator
 Tags: SAM Broadcaster, Internet Radio, Streaming, Broadcasting
 Requires at least: 3.5.0
 Tested up to: 3.8
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -132,6 +132,16 @@ Broadcaster client.
 
 == Changelog ==
 
+= 1.2.1 =
+ - Reorganized the Settings Page into Tabs.  There are now three separate
+   tabs.
+    - Connections - SAM Client and SQL Database Settings
+    - Pages - Page IDs and other page display options
+    - Status Messages - Custom Status Messages when a request is rejected.
+ - BugFix : The Custom Status messages for Song and Artist were reversed.
+ - Compatibility: Changed the implementation used to initialize the widgets in
+     order to ensure better compatibility with outdated themes and PHP versions.
+
 = 1.2.0 =
  - Added Customizable Status Messages (Feature Request from JTMVK )
 
@@ -154,6 +164,10 @@ worked for a later release (Likely the 1.1 release).
 Initial Public Release
 
 == Upgrade Notice ==
+
+= 1.3.0 =
+Reorganized Settings Page into Tabs
+Fixed Minor Bug in Custom Status Messages
 
 = 1.2.0 =
 Added Customizable Status Messages
