@@ -4,7 +4,7 @@ Donate link: http://www.netguysteve.com/sam-integrator
 Tags: SAM Broadcaster, Internet Radio, Streaming, Broadcasting
 Requires at least: 3.5.0
 Tested up to: 3.8
-Stable tag: 1.2.1
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -132,6 +132,19 @@ Broadcaster client.
 
 == Changelog ==
 
+= 1.3.0 =
+ - NEW FEATURE: Request Throttle for Unregistered Users
+    - Settings mimic SAM Broadcaster Pro configuration but only affect
+      unregistered users
+    - Some request data is now stored directly in the Wordpress database so that
+      throttling can be handled completely by the web server without touching the
+      SAM client or database.
+    - Requests are now associated with users.  This will be used later to implement
+      additional features like personal request histories.
+    - Requests for unregistered users can be completely disabled by setting the
+      daily limit to zero (0).
+ - Improved Error Handling
+
 = 1.2.1 =
  - Reorganized the Settings Page into Tabs.  There are now three separate
    tabs.
@@ -166,6 +179,10 @@ Initial Public Release
 == Upgrade Notice ==
 
 = 1.3.0 =
+ NEW FEATURE: Request Throttle for Unregistered Users
+ Improved Error Handling
+
+= 1.2.1 =
 Reorganized Settings Page into Tabs
 Fixed Minor Bug in Custom Status Messages
 
