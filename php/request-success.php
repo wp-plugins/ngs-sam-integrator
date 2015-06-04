@@ -11,4 +11,19 @@
 				Your request for "<?php echo $reqtitle; ?>" by <?php echo $reqartist ?> has been received and will be added the queue.
 			</div>
 	<?php
+	$wpdb->insert( 
+			$ngs_request_table, 
+			array(
+				'songID' => $song_id,
+				't_stamp' => current_time( 'mysql', 0),
+				'host' => $client_host,
+				'userid' => $current_user
+			),
+			array(
+				'%d',
+				'%s',
+				'%s',
+				'%d'
+			)
+		);
 	}
