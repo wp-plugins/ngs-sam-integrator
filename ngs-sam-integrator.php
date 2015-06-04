@@ -4,7 +4,7 @@
 Plugin Name: NGS SAM Integrator
 Plugin URI: http://www.netguysteve.com/sam-integrator/
 Description: Plug-In to integrate SAM Broadcaster with WordPress
-Version: 1.3.4
+Version: 1.3.5
 Author: Steve Williams
 Author URI: http://www.netguysteve.com/
 License: GPLv2
@@ -37,7 +37,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  * Current SAM Integrator Database Version
  */
 global $ngs_sam_integrator_db_ver;
-$ngs_sam_integrator_db_ver = "1.3.4";
+$ngs_sam_integrator_db_ver = "1.3.5";
 
 if ( ! class_exists( "NGS_SAM_Integrator" ) ) {
 	class NGS_SAM_Integrator {
