@@ -1,0 +1,87 @@
+/* 
+    Document   : ngs-sam-integrator
+    Created on : May 12, 2013, 5:51:07 PM
+    Author     : Steve Williams
+    Description:
+        CSS Formatting for the NGS SAM Integrator
+*/
+
+div.ngssamintegrator a {
+    color: inherit;
+}
+
+div.ngssamintegrator a:hover {
+    background-color:#0861a5;
+    color: #ffffff;
+    text-decoration: none;
+    
+}
+
+#reqsuccess {
+    background-color: #006600;
+    color: #FFFFFF;
+}
+
+#reqfailure {
+    background-color: #990000;
+    color: #FFFFFF;
+}
+
+.ngsDialog {
+	background: rgba(0,0,0,0.8);
+	bottom: 0;
+        cursor: default;
+	left: 0;
+	opacity:0;
+	position: fixed;
+	right: 0;
+	top: 0;
+        visibilit: hidden;
+	font-family: Arial, Helvetica, sans-serif;
+	z-index: 1;
+	-webkit-transition: opacity .5s;
+	-moz-transition: opacity .5s;
+        -ms-transition: opacity .5s;
+        -o-transition: opacity .5s;
+	transition: opacity .5s;
+}
+
+.ngsDialog:target {
+	opacity:1;
+	pointer-events: auto;
+}
+
+.ngsDialog > div {
+	width: 400px;
+	position: relative;
+	margin: 10% auto;
+	padding: 5px 20px 13px 20px;
+	border-radius: 10px;
+	background: #fff;
+}
+
+.ngsCloseModal {
+	background: #606061;
+	color: #FFFFFF;
+	line-height: 25px;
+	position: absolute;
+	right: -12px;
+	text-align: center;
+	top: -10px;
+	width: 24px;
+	text-decoration: none;
+	font-weight: bold;
+	-webkit-border-radius: 12px;
+	-moz-border-radius: 12px;
+        -ms-border-radius: 12px;
+	-o-border-radius: 12px;
+	border-radius: 12px;
+        
+	-moz-box-shadow: 1px 1px 3px #000;
+	-webkit-box-shadow: 1px 1px 3px #000;
+	-ms-box-shadow: 1px 1px 3px #000;
+	-o-box-shadow: 1px 1px 3px #000;
+	box-shadow: 1px 1px 3px #000;
+}
+
+.ngsCloseModal:hover { background: #00d9ff; }
