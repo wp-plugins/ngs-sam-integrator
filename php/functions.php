@@ -26,12 +26,12 @@ function build_songlist_query($start_at, $number_to_show, $playlist_search_text)
 	
 	if( empty( $playlist_search_text ) )
 	{
-		$sanitized_sam_query = $samdb->prepare("SELECT id AS songid, artist, title, duration 
+		$sanitized_sam_query = $samdb->prepare("SELECT id AS songid, artist, title, duration, picture 
 			FROM songlist 
 			$where 
 			ORDER BY artist ASC, title ASC LIMIT %d, %d", $start_at,$number_to_show);
 	} else {
-		$sanitized_sam_query = $samdb->prepare("SELECT id AS songid, artist, title, duration
+		$sanitized_sam_query = $samdb->prepare("SELECT id AS songid, artist, title, duration, picture
 			FROM songlist
 			$where 
 			AND ( artist LIKE '%%%s%%' OR title LIKE '%%%s%%' OR album LIKE '%%%s%%' )
@@ -71,7 +71,7 @@ function build_top_request_query( $start_at, $number_to_show ) {
 	$start_at = absint( $start_at );
 	$number_to_show = absint( $number_to_show );
 	$sanitized_sam_query = $samdb->prepare( "SELECT songlist.ID AS songid, songlist.title, 
-				songlist.artist, songlist.duration, count(songlist.ID) AS reqcnt, 
+				songlist.artist, songlist.duration, songlist.picture, count(songlist.ID) AS reqcnt, 
 				max(requestlist.t_stamp) as mostrecent
             FROM requestlist, songlist 
 			WHERE   requestlist.songID = songlist.ID AND
@@ -92,6 +92,7 @@ function build_top_request_query( $start_at, $number_to_show ) {
  * @return string
  */
 function build_top_request_count_query( ) {
+	global $samdb;
 	$firstpass = "SELECT songlist.ID AS songid, songlist.title, songlist.artist, songlist.duration, count(songlist.ID) AS reqcnt, max(requestlist.t_stamp) as mostrecent
             FROM requestlist, songlist 
 			WHERE   (requestlist.songID = songlist.ID) AND
@@ -100,6 +101,7 @@ function build_top_request_count_query( ) {
 			GROUP BY songlist.ID";
 	return "SELECT count(songid) AS songcount FROM ($firstpass) AS firstpass";
 }
+
 
 /**
  * Strips Query String from the URL
@@ -120,6 +122,7 @@ function clean_playlist_url( $old_url )
 	return $new_url;
 }
 
+
 /**
  * Prepare song information for display in Playlist and Top Request list
  * 
@@ -139,12 +142,29 @@ function prepare_song( $song, $start=0, $limit=50, $search=null ) {
 	$ss = '';
 	$reqlink = '';
 	$reqcount = 0;
-	if ( empty( $song->title ) ) {
-		$combine = $song->artist;
-	} else if ( empty( $song->artist ) ) {
-		$combine = $song->title;
+	$artist = '';
+	$title = '';
+	
+	$artist = $song->artist;
+	$title = $song->title;
+	
+
+//ADD ALBUM ART! 
+	$album = '';
+	$album = $song->picture;
+
+	if ( empty( $album ) ) {
+		$album = 'NA.gif';
+	}
+
+//End Album Art!
+
+	if ( empty( $title ) ) {
+		$combine = $artist;
+	} else if ( empty( $artist ) ) {
+		$combine = $title;
 	} else {
-		$combine = $song->artist.' - '.$song->title;
+		$combine = $artist.' - '.$title;
 	}
 	$ss = round($song->duration / 1000);
 	$mm = (int)($ss/60);
@@ -156,7 +176,7 @@ function prepare_song( $song, $start=0, $limit=50, $search=null ) {
 	$songid = $song->songid;
 	$reqcount = $song->reqcnt;
 	$reqlink = add_query_arg( array( 'songid' => $songid, 'startat' => $start, 'number' => $limit, 'songsearchtext' => $search ), clean_playlist_url( $_SERVER["REQUEST_URI"] ) );
-	return array( 'artistandtitle' => $combine, 'formattedduration' => $mmss, 'requestlink' => $reqlink, 'requestcount' => $reqcount );
+	return array( 'artist' => $artist, 'title' => $title, 'artistandtitle' => $combine, 'formattedduration' => $mmss, 'requestlink' => $reqlink, 'requestcount' => $reqcount, 'album' => $album );
 }
 /**
  * Validates the value of the start position
@@ -225,4 +245,64 @@ function get_queue_line() {
 			$queue_message );
 	return $queue_line;
 }
-?>
+
+function build_upcoming_tracks_query( $number_to_show ) {
+	global $samdb;
+	$number_to_show = absint( $number_to_show );
+	$sanitized_sam_query = $samdb->prepare( "SELECT songlist.ID AS songid, songlist.title, 
+				songlist.artist, songlist.duration,songlist.picture, queuelist.requestID AS requestID
+            FROM queuelist, songlist 
+			WHERE   queuelist.songID = songlist.ID AND
+					( songlist.songtype = 'S' OR songlist.songtype = 'N' )
+			ORDER BY queuelist.sortID ASC LIMIT %d, %d", 0, $number_to_show );
+	return $sanitized_sam_query;
+}
+
+function build_recently_played_query( $number_to_show ) {
+	global $samdb;
+	$number_to_show = absint( $number_to_show ) + 1;
+	$sanitized_sam_query = $samdb->prepare( "SELECT songlist.ID AS songid, songlist.title, 
+				songlist.artist, songlist.duration, songlist.picture, historylist.requestID AS requestID,
+				historylist.date_played AS starttime
+            FROM historylist, songlist 
+			WHERE   historylist.songID = songlist.ID AND
+					( songlist.songtype = 'S' OR songlist.songtype = 'N' )
+			ORDER BY starttime DESC LIMIT %d, %d", 0, $number_to_show );
+	return $sanitized_sam_query;
+}
+
+function prepare_widget_song( $song ) {
+	$mmss = '';
+	$mm = '';
+	$ss = '';
+	$artist = '';
+	$title = '';
+	
+//ADD ALBUM ART!
+	$album = '';
+	$album = $song->picture;
+
+	if ( empty( $album ) ) {
+		$album = 'NA.gif';
+	}
+
+//End Album Art!
+
+	$artist = $song->artist;
+	$title = $song->title;
+	$reqid = $song->requestID;
+	
+	if( 0 != $reqid )
+		$title = $title.' ~Requested~';
+	
+	$ss = round($song->duration / 1000);
+	$mm = (int)($ss/60);
+	$ss = $ss % 60;
+	if( 10 > $ss ) { 
+		$ss = "0$ss"; 
+	}
+	$mmss = "$mm:$ss";
+	
+	return array( 'artist' => $artist, 'title' => $title, 'formattedduration' => $mmss, 'album' => $album );	
+}
+

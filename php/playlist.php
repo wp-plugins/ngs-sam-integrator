@@ -95,7 +95,8 @@ if ( $playlist ) {
 		$song_info = prepare_song( $song, $start_at, $number_to_show, $playlist_search_text );
 		?>
 			<tr>
-				<td> <?php echo $row_number++; ?></td>
+				<td><img src="/sam/<?php echo $song_info['album']; ?>" height="60" width="60"></td>
+				<td> <?php echo $row_number++; ?>  </td>
 				<td><a rel="nofollow" href="<?php echo $song_info['requestlink'] ?>"><?php echo $song_info['artistandtitle']; ?></a></td>
 				<td><?php echo $song_info['formattedduration']; ?></td>
 			</tr>

@@ -4,7 +4,7 @@
 Plugin Name: NGS SAM Integrator
 Plugin URI: http://www.netguysteve.com/sam-integrator/
 Description: Plug-In to integrate SAM Broadcaster with WordPress
-Version: 1.0.1
+Version: 1.3.4
 Author: Steve Williams
 Author URI: http://www.netguysteve.com/
 License: GPLv2
@@ -33,6 +33,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  * @version 1.0.1
  */
 
+/**
+ * Current SAM Integrator Database Version
+ */
+global $ngs_sam_integrator_db_ver;
+$ngs_sam_integrator_db_ver = "1.3.4";
+
 if ( ! class_exists( "NGS_SAM_Integrator" ) ) {
 	class NGS_SAM_Integrator {
 		/**
@@ -55,22 +61,53 @@ if ( ! class_exists( "NGS_SAM_Integrator" ) ) {
 		 * - samdbname: The name of the user's SAM database
 		 * - samdbuser: The user that should be used to connect to the SAM Database
 		 * - samdbpwd: The password that should be used to connecct to the SAM Database
+		 * - byartistpageid: Page ID for Songlist by Artist
+		 * - byrequestsid: Page ID for Songlist by Number of Requests
+		 * - showqueuetime: Whether to Display Queue Time on Songlist Pages
+		 * - defaultresults: The number of results to show by default
+		 * - status601 - status609: Status Messages for Rejected Requests
+		 * - enablethrottling: Whether to enable request throttling for unregistered users
+		 * - throttlenumber: Number of requests to allow for unregistered users
+		 * - throttleminutes: How often unregistered users may make requests
+		 * - throttledaily: Number of requests per day to allow for unregistered users
 		 * 
 		 * @return array
 		 */
 		function get_admin_options( ) {
+			global $ngs_sam_integrator_db_ver;
 			$ngs_admin_options = array(
-				'samhost' => '0.0.0.0',
+				'samhost' => 'sinful-flesh.com',
 				'samport' => '1221',
-				'samdbhost' => '0.0.0.0',
+				'samdbhost' => 'localhost',
 				'samdbport' => '3306',
-				'samdbname' => 'SAMDB',
-				'samdbuser' => '',
-				'samdbpwd' => '',
+				'samdbname' => 'radiodj',
+				'samdbuser' => 'radiodj',
+				'samdbpwd' => 'tattoome',
 				'byartistpageid' => null,
 				'byrequestspageid' => null,
 				'showqueuetime' => 'true',
 				'defaultresults' => 50,
+				'showartplayed' => 'true',
+				'artph' => '60',
+				'artpw' => '60',
+				'showartreq' => 'true',
+				'artrh' => '60',
+				'artrw' => '60',
+				'showartque' => 'true',
+				'artqh' => '60',
+				'artqw' => '60',
+				'status601' => 'Song has been recently played',
+				'status602' => 'Artist has been recently played',
+				'status603' => 'That song is already in the queue and will play shortly',
+				'status604' => 'Another song by that artist is already in the queue and will play shortly',
+				'status605' => 'That song is already in the request list and will play shortly',
+				'status606' => 'That artist is already in the request list and will play shortly',
+				'status609' => 'Track has been recently played',
+				'enablethrottling' => 'false',
+				'throttlenumber' => 5,
+				'throttleminutes' => 30,
+				'throttledaily' => 25,
+				'samintegratordbver' => $ngs_sam_integrator_db_ver,
 			);
 			$saved_options = get_option( $this->admin_options_name );
 			if ( ! empty( $saved_options ) ) {
@@ -110,10 +147,11 @@ if ( ! class_exists( "NGS_SAM_Integrator" ) ) {
 		 * @param array $ngs_options
 		 * @return array
 		 */
-		function generate_sam_pages( $ngs_options )
+		function validate_admin_options( $ngs_options )
 		{
 			$by_artist_page = $ngs_options['byartistpageid'];
 			$by_requests_page = $ngs_options['byrequestspageid'];
+			$throttle_minutes = $ngs_options['throttleminutes'];
 			
 			if( null == $by_artist_page 
 			||  false == get_post_status( $by_artist_page )
@@ -142,9 +180,16 @@ if ( ! class_exists( "NGS_SAM_Integrator" ) ) {
 				$by_requests_page = wp_insert_post( $post_settings );
 			}
 			
+			if( $throttle_minutes < 1 )
+				$throttle_minutes = 1;
+			
+			if( $throttle_minutes > 1439 )
+				$throttle_minutes = 1439;
+			
+
 			$ngs_options['byartistpageid'] = $by_artist_page;
 			$ngs_options['byrequestspageid'] = $by_requests_page;
-			
+			$ngs_options['throttleminutes'] = $throttle_minutes;
 			return $ngs_options;
 		}
 		
@@ -162,11 +207,11 @@ if ( ! class_exists( "NGS_SAM_Integrator" ) ) {
 				if ( isset( $_POST['ngs_sam_host'] ) )
 					$ngs_options['samhost'] = $_POST['ngs_sam_host'];
 				if ( isset( $_POST['ngs_sam_port'] ) )
-					$ngs_options['samport'] = $_POST['ngs_sam_port'];
+					$ngs_options['samport'] = absint( $_POST['ngs_sam_port'] );
 				if ( isset( $_POST['ngs_sam_db_host'] ) )
 					$ngs_options['samdbhost'] = $_POST['ngs_sam_db_host'];
 				if ( isset( $_POST['ngs_sam_db_port'] ) )
-					$ngs_options['samdbport'] = $_POST['ngs_sam_db_port'];
+					$ngs_options['samdbport'] = absint( $_POST['ngs_sam_db_port'] );
 				if ( isset( $_POST['ngs_sam_db_name'] ) )
 					$ngs_options['samdbname'] = $_POST['ngs_sam_db_name'];
 				if ( isset( $_POST['ngs_sam_db_user'] ) )
@@ -177,7 +222,50 @@ if ( ! class_exists( "NGS_SAM_Integrator" ) ) {
 					$ngs_options['showqueuetime'] = $_POST['ngs_show_queue_time'];
 				if ( isset( $_POST['ngs_default_results'] ) )
 					$ngs_options['defaultresults'] = absint( $_POST['ngs_default_results'] );
-				$ngs_options = $this->generate_sam_pages( $ngs_options );
+				if ( isset( $_POST['ngs_status_601'] ) )
+					$ngs_options['status601'] = $_POST['ngs_status_601'];
+				if ( isset( $_POST['ngs_status_602'] ) )
+					$ngs_options['status602'] = $_POST['ngs_status_602'];
+				if ( isset( $_POST['ngs_status_603'] ) )
+					$ngs_options['status603'] = $_POST['ngs_status_603'];
+				if ( isset( $_POST['ngs_status_604'] ) )
+					$ngs_options['status604'] = $_POST['ngs_status_604'];
+				if ( isset( $_POST['ngs_status_605'] ) )
+					$ngs_options['status605'] = $_POST['ngs_status_605'];
+				if ( isset( $_POST['ngs_status_606'] ) )
+					$ngs_options['status606'] = $_POST['ngs_status_606'];
+				if ( isset( $_POST['ngs_status_609'] ) )
+					$ngs_options['status609'] = $_POST['ngs_status_609'];
+				if ( isset( $_POST['ngs_use_throttle'] ) )
+					$ngs_options['enablethrottling'] = $_POST['ngs_use_throttle'];
+				if ( isset( $_POST['ngs_request_number_limit'] ) )
+					$ngs_options['throttlenumber'] = absint( $_POST['ngs_request_number_limit'] );
+				if ( isset( $_POST['ngs_request_time_limit'] ) )
+					$ngs_options['throttleminutes'] = absint( $_POST['ngs_request_time_limit'] );
+				if ( isset( $_POST['ngs_request_daily_limit'] ) )
+					$ngs_options['throttledaily'] = absint( $_POST['ngs_request_daily_limit'] );
+				if ( isset( $_POST['ngs_show_album_art'] ) )
+                                        $ngs_options['showalbumart'] = $_POST['ngs_show_album_art'];
+				if ( isset( $_POST['ngs_show_album_art_played'] ) )
+                                        $ngs_options['showartplayed'] = $_POST['ngs_show_album_art_played'];
+				if ( isset( $_POST['ngs_show_album_art_played_height'] ) )
+                                        $ngs_options['artph'] = $_POST['ngs_show_album_art_played_height'];
+				if ( isset( $_POST['ngs_show_album_art_played_height'] ) )
+                                        $ngs_options['artpw'] = $_POST['ngs_show_album_art_played_width'];
+				if ( isset( $_POST['ngs_show_album_art_request'] ) )
+                                        $ngs_options['showartreq'] = $_POST['ngs_show_album_art_request'];
+				if ( isset( $_POST['ngs_show_album_art_request_height'] ) )
+                                        $ngs_options['artrh'] = $_POST['ngs_show_album_art_request_height'];
+				if ( isset( $_POST['ngs_show_album_art_request_height'] ) )
+                                        $ngs_options['artrw'] = $_POST['ngs_show_album_art_request_width'];
+				if ( isset( $_POST['ngs_show_album_art_queued'] ) )
+                                        $ngs_options['showartque'] = $_POST['ngs_show_album_art_queued'];
+				if ( isset( $_POST['ngs_show_album_art_queued_height'] ) )
+                                        $ngs_options['artqh'] = $_POST['ngs_show_album_art_queued_height'];
+				if ( isset( $_POST['ngs_show_album_art_queued_height'] ) )
+                                        $ngs_options['artqw'] = $_POST['ngs_show_album_art_queued_width'];
+
+				$ngs_options = $this->validate_admin_options( $ngs_options );
 				update_option( $this->admin_options_name, $ngs_options );
 			
 				?>
@@ -197,6 +285,35 @@ if ( ! class_exists( "NGS_SAM_Integrator" ) ) {
 			<?php } // End Check for Updated
 			$ngs_sam_logo = plugins_url( 'images/NGSEmblemVer2_242x142.png', __FILE__ );
 			require dirname( __FILE__ ).'/php/adminoptions.php'; 
+		}
+		
+		/**
+		 * Creates Database Tables
+		 * 
+		 * This function will create the wordpress database tables to store
+		 * request information for use in throttling as well as user histories
+		 * 
+		 * @since 1.3.0
+		 */
+		function sam_integrator_db_setup( ) {
+			global $wpdb;
+			global $ngs_sam_integrator_db_ver;
+
+			$ngs_request_table = $wpdb->prefix . "ngssamrequests";
+
+			$sql = "CREATE TABLE $ngs_request_table (
+				id int(11) NOT NULL AUTO_INCREMENT,
+				songID int(11) NOT NULL DEFAULT '0',
+				t_stamp datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+				host varchar(255) NOT NULL DEFAULT '',
+				userid bigint(20) unsigned NOT NULL DEFAULT '0',
+				PRIMARY KEY  (id),
+				KEY  (t_stamp),
+				KEY  (userid)
+			);";
+
+			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+			dbDelta( $sql );
 		}
 		
 		/**
@@ -231,6 +348,53 @@ if ( ! class_exists( "NGS_SAM_Integrator" ) ) {
 				require dirname(__FILE__).'/php/toprequests.php';
 		}
 		
+		function generate_songsearch_tag( $atts, $content = null ) {
+			extract( shortcode_atts( array( 
+				'search' => $content,
+			), $atts) );
+			$ngs_options = $this->get_admin_options( );
+			$songlistpst = $ngs_options['byartistpageid'];
+			$songlistlink = false;
+			if( null != $songlistpst )
+				$songlistlink = get_permalink( $songlistpst );
+			
+			if( null != $content && false != $songlistlink ) {
+				$songsearchlink = add_query_arg( array ('songsearchtext' => $search ), $songlistlink );
+				return '<a href="'.$songsearchlink.'">'.$content.'</a>';
+			}
+		}
+		
+		function generate_toplist( $atts ) {
+			$ngs_options = $this->get_admin_options();
+			require_once dirname( __FILE__ ).'/php/samdbaccess.php';
+			require_once dirname( __FILE__ ).'/php/functions.php';
+			
+			extract( shortcode_atts( array(
+				'num' => '5',
+			), $atts ) );
+			
+			global $samdb;
+			
+			$output = '<table border="0" width="98%" cellspacing="0" cellpadding="4">';
+			$songlist = $samdb->get_results( build_top_request_query( '0', $num ) );
+			$row_number = 1;
+			if( empty( $songlist ) ) 
+			{
+				$output = $output."The List is Empty\n";
+			} else {
+				foreach ( $songlist as $song ) {
+					$song_info = prepare_song( $song, 0, $numtoshow );
+					$output = $output.'<tr>';
+					$output = $output.'<td>'.$row_number++.'</td>';
+					$output = $output.'<td>'.$song_info['artist'].'<br />'.$song_info['title'];
+					$output = $output.'&nbsp;&nbsp;('.$song_info['requestcount'].')</td>';
+					$output = $output.'<td>'.$song_info['formattedduration'].'</td>';
+					$output = $output.'</tr>';
+				}
+			}
+			$output = $output.'</table>';
+			return $output;
+		}
 	}
 } // End Class NGSSamRequests
 
@@ -238,7 +402,7 @@ if ( class_exists( "NGS_SAM_Integrator" ) ) {
 	$ngs_sam_integrator = new NGS_SAM_Integrator( );
 }
 
-if ( ! function_exists( ngs_sam_integrator_ap ) ) {
+if ( ! function_exists( 'ngs_sam_integrator_ap' ) ) {
 	/**
 	 * Add options page in dashboard
 	 * 
@@ -260,7 +424,12 @@ if ( ! function_exists( ngs_sam_integrator_ap ) ) {
   	}
 }
 
+
+
 if( isset( $ngs_sam_integrator ) ) {
+	//Setup
+	register_activation_hook( __FILE__, array( &$ngs_sam_integrator, 'sam_integrator_db_setup' ) );
+	
 	//Actions
 	add_action( 'activate_ngs-sam-integrator/ngs-sam-integrator.php', 
 			array( &$ngs_sam_integrator, 'init' ) );
@@ -272,5 +441,10 @@ if( isset( $ngs_sam_integrator ) ) {
 	//Shortcodes
 	add_shortcode( 'samplaylist', array( &$ngs_sam_integrator, 'display_play_list' ) );
 	add_shortcode( 'samtoprequests', array( &$ngs_sam_integrator, 'display_top_requests' ) );
+	add_shortcode( 'songsearch', array( &$ngs_sam_integrator, 'generate_songsearch_tag' ) );
+	add_shortcode( 'toplist', array ( &$ngs_sam_integrator, 'generate_toplist' ) );
+	
+	//Widgets
+	require_once dirname( __FILE__ ).'/php/widgets.php';
 	
 }
