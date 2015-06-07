@@ -67,7 +67,11 @@ class ngs_top_req_widget extends WP_Widget
 						$output = $output.'<td><img src="/sam/'.$song_info['album'].'" height="'.$ngs_options['artrh'].'" width="'.$ngs_options['artrw'].'">'.$song_info['artist'].'<br />'.$song_info['title'];
 					}
 					$output = $output.'&nbsp;&nbsp;('.$song_info['requestcount'].')</td>';
-					$output = $output.'<td>'.$song_info['formattedduration'].'</td>';
+					if ( $ngs_options['showtimereq'] == 'true' ) {
+						$output = $output.'<td>'.$song_info['formattedduration'].'</td>';
+					} else {
+						null;
+					}
 					$output = $output.'</tr>';
 				}
 			}
@@ -164,7 +168,11 @@ class ngs_upcoming_tracks_widget extends WP_Widget
 					} else {
 						$output = $output.'<td><center><img src="/sam/'.$song_info['album'].'" height="'.$ngs_options['artqh'].'" width="'.$ngs_options['artqw'].'"><br /><strong>'.$song_info['artist'].'</strong><br />'.$song_info['title'].'</center></td>';
 					}
-					$output = $output.'<td>'.$song_info['formattedduration'].'</td>';
+					if ( $ngs_options['showtimeque'] == 'true' ) {
+						$output = $output.'<td>'.$song_info['formattedduration'].'</td>';
+					} else {
+						null;
+					}
 					$output = $output.'</tr>';
 				}
 			}
@@ -270,7 +278,11 @@ class ngs_recently_played_widget extends WP_Widget
 					$output = $output.'<td><center><img src="/sam/'.$song_info['album'].'" height="'.$ngs_options['artph'].'" width="'.$ngs_options['artpw'].'"><br /><strong>'.$song_info['artist'].'<br />'.$song_info['title'].'</strong></center></td>';
 					}
 					$output = $output.( 0 == $row_number ? '</strong>' : '').'</td>';
-					$output = $output.'<td>'.$song_info['formattedduration'].'</td>';
+					if ( $ngs_options['showtimeplay'] == 'true' ) {
+						$output = $output.'<td>'.$song_info['formattedduration'].'</td>';
+					} else {
+						null;
+					}
 					$row_number++;
 					$output = $output.'</tr>';
 				}

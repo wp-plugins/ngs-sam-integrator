@@ -4,7 +4,7 @@ Donate link: http://www.netguysteve.com/sam-integrator
 Tags: SAM Broadcaster, Internet Radio, Streaming, Broadcasting
 Requires at least: 3.5.0
 Tested up to: 4.2.2
-Stable tag: 1.3.6
+Stable tag: 1.3.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -68,6 +68,12 @@ default, these ports are 1221 for SAM Broadcaster and 3306 for MySQL.
 
 Once this is done, the hard part is out of the way.  Installation and configuration 
 of the plug-in itself is very easy and straight forward.
+
+= Album Art =
+1. Add folder to root directory of your wordpress called "sam"
+2. chmod 777 sam folder
+3. setup sam broadcaster to upload album art images to this folder.
+
 
 = Manual Installation Instructions =
 1.  Upload the NGS SAM Integrator Plug-In to your Wordpress Site and Activate it
@@ -177,6 +183,12 @@ worked for a later release (Likely the 1.1 release).
 Initial Public Release
 
 == Upgrade Notice ==
+
+= 1.3.7 =
+Enable/Disable feature added for song information widgets
+
+= 1.3.6 =
+Album Art feature added
 
 = 1.3.0 =
  NEW FEATURE: Request Throttle for Unregistered Users
