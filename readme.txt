@@ -4,7 +4,7 @@ Donate link: http://www.netguysteve.com/sam-integrator
 Tags: SAM Broadcaster, Internet Radio, Streaming, Broadcasting
 Requires at least: 3.5.0
 Tested up to: 4.2.2
-Stable tag: 1.3.7
+Stable tag: 1.3.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -183,6 +183,11 @@ worked for a later release (Likely the 1.1 release).
 Initial Public Release
 
 == Upgrade Notice ==
+
+
+= 1.3.8 =
+Added "Playing Now" Widget and options to fulfill request. Further edits planned for the future
+to add more features and funcitonality such as stream link buttons and icons.
 
 = 1.3.7 =
 Enable/Disable feature added for song information widgets

@@ -75,6 +75,7 @@ foreach ( $playlist as $song ) {
 	?>
 			<tr>
 				<td> <?php echo $row_number++; ?></td>
+				<td><img src="/sam/<?php echo $song_info['album']; ?>" height="60" width="60"></td>
 				<td><a rel="nofollow" href="<?php echo $song_info['requestlink']; ?>"><?php echo $song_info['artistandtitle']; ?></a>
 					&nbsp;&nbsp(<?php echo $song_info['requestcount']; ?>)</td>
 				<td><?php echo $song_info['formattedduration']; ?></td>
