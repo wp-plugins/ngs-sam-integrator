@@ -271,6 +271,19 @@ function build_recently_played_query( $number_to_show ) {
 	return $sanitized_sam_query;
 }
 
+function build_playing_now_query( $number_to_show ) {
+        global $samdb;
+        $number_to_show = absint( $number_to_show ) + 1;
+        $sanitized_sam_query = $samdb->prepare( "SELECT songlist.ID AS songid, songlist.title,               
+                                songlist.artist, songlist.duration, songlist.picture, historylist.requestID AS requestID,
+                                historylist.date_played AS starttime
+            FROM historylist, songlist
+                        WHERE   historylist.songID = songlist.ID AND
+                                        ( songlist.songtype = 'S' OR songlist.songtype = 'N' )               
+                        ORDER BY starttime DESC LIMIT %d, %d", 0, $number_to_show );
+        return $sanitized_sam_query;
+}
+
 function prepare_widget_song( $song ) {
 	$mmss = '';
 	$mm = '';

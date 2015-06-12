@@ -72,6 +72,16 @@ if ( 'pages' == $active_tab ) { ?>
 if ( 'album_art' == $active_tab ) { ?>
 <h2>Widget Album Art:</h2>
 
+<h3>Playing Now</h3>
+        <label for="ngs_show_album_art_playing_now_yes"><?php _e('Enable: '); ?></label>
+                 <input type="radio" id="ngs_show_album_art_playing_now_yes" name="ngs_show_album_art_playing_now" value="true" <?php if ( "true" == $ngs_options['showartplaynow'] ) echo 'checked="checked" '; ?> /> Yes </label>&nbsp;
+        <label for="ngs_show_album_art_playing_now_no">
+                  <input type="radio" id="ngs_show_album_art_playing_now_no" name="ngs_show_album_art_playing_now" value="false" <?php if ( "false" == $ngs_options['showartplaynow'] ) echo 'checked="checked" '; ?> /> No </label><br />
+        <label for="ngs_show_album_art_playing_now_height"><?php _e('Height'); ?></label>
+                <input name="ngs_show_album_art_playing_now_height" type="number" step="1" min="0" id="ngs_show_album_art_playing_now_height" value="<?php echo $ngs_options['artpnh'];; ?>" class="small-text" />
+        <label for="ngs_show_album_art_playing_now_width"><?php _e('Width'); ?></label>
+                <input name="ngs_show_album_art_playing_now_width" type="number" step="1" min="0" id="ngs_show_album_art_playing_now_width" value="<?php echo $ngs_options['artpnw'];; ?>" class="small-text" /><br />
+
 <h3>Recently Played</h3>   
         <label for="ngs_show_album_art_played_yes"><?php _e('Enable: '); ?></label>
                 <input type="radio" id="ngs_show_album_art_played_yes" name="ngs_show_album_art_played" value="true" <?php if ( "true" == $ngs_options['showartplayed'] ) echo 'checked="checked" '; ?> /> Yes </label>&nbsp;
@@ -81,6 +91,11 @@ if ( 'album_art' == $active_tab ) { ?>
 		<input name="ngs_show_album_art_played_height" type="number" step="1" min="0" id="ngs_show_album_art_played_height" value="<?php echo $ngs_options['artph'];; ?>" class="small-text" />
 	<label for="ngs_show_album_art_played_width"><?php _e('Width'); ?></label>
 		<input name="ngs_show_album_art_played_width" type="number" step="1" min="0" id="ngs_show_album_art_played_width" value="<?php echo $ngs_options['artpw'];; ?>" class="small-text" /><br />
+
+        <label for="ngs_show_album_time_played_yes"><?php _e('Show Duration:  '); ?></label>
+                <input type="radio" id="ngs_show_album_time_played_yes" name="ngs_show_album_time_played" value="true" <?php if ( "true" == $ngs_options['showtimeplay'] ) echo 'checked="checked" '; ?> /> Yes </label>&nbsp;
+        <label for="ngs_show_album_time_played_no">
+                 <input type="radio" id="ngs_show_album_time_played_no" name="ngs_show_album_time_played" value="false" <?php if ( "false" == $ngs_options['showtimeplay'] ) echo 'checked="checked" '; ?> /> No </label><br />
 
 <h3>Coming Up</h3>   
         <label for="ngs_show_album_art_queued_yes"><?php _e('Enable: '); ?></label>
@@ -92,6 +107,11 @@ if ( 'album_art' == $active_tab ) { ?>
 	<label for="ngs_show_album_art_queued_width"><?php _e('Width'); ?></label>
 		<input name="ngs_show_album_art_queued_width" type="number" step="1" min="0" id="ngs_show_album_art_queued_width" value="<?php echo $ngs_options['artqw'];; ?>" class="small-text" /><br />
 
+        <label for="ngs_show_album_time_queued_yes"><?php _e('Show Duration:  '); ?></label>
+                <input type="radio" id="ngs_show_album_time_queued_yes" name="ngs_show_album_time_queued" value="true" <?php if ( "true" == $ngs_options['showtimeque'] ) echo 'checked="checked" '; ?> /> Yes </label>&nbsp;
+        <label for="ngs_show_album_time_queued_no">
+                 <input type="radio" id="ngs_show_album_time_queued_no" name="ngs_show_album_time_queued" value="false" <?php if ( "false" == $ngs_options['showtimeque'] ) echo 'checked="checked" '; ?> /> No </label><br />
+
 <h3>Requested</h3>   
         <label for="ngs_show_album_art_request_yes"><?php _e('Enable: '); ?></label>
                 <input type="radio" id="ngs_show_album_art_request_yes" name="ngs_show_album_art_request" value="true" <?php if ( "true" == $ngs_options['showartreq'] ) echo 'checked="checked" '; ?> /> Yes </label>&nbsp;
@@ -102,6 +122,10 @@ if ( 'album_art' == $active_tab ) { ?>
 	<label for="ngs_show_album_art_request_width"><?php _e('Width'); ?></label>
 		<input name="ngs_show_album_art_request_width" type="number" step="1" min="0" id="ngs_show_album_art_request_width" value="<?php echo $ngs_options['artrw'];; ?>" class="small-text" /><br />
                                                                                                               
+        <label for="ngs_show_album_time_request_yes"><?php _e('Show Duration: '); ?></label>
+                <input type="radio" id="ngs_show_album_time_request_yes" name="ngs_show_album_time_request" value="true" <?php if ( "true" == $ngs_options['showtimereq'] ) echo 'checked="checked" '; ?> /> Yes </label>&nbsp;
+        <label for="ngs_show_album_time_request_no">
+                 <input type="radio" id="ngs_show_album_time_request_no" name="ngs_show_album_time_request" value="false" <?php if ( "false" == $ngs_options['showtimereq'] ) echo 'checked="checked" '; ?> /> No </label><br />
 
 
 <h3>Album Art Location:</h3>  

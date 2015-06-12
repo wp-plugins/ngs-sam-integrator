@@ -4,7 +4,7 @@
 Plugin Name: NGS SAM Integrator
 Plugin URI: http://www.netguysteve.com/sam-integrator/
 Description: Plug-In to integrate SAM Broadcaster with WordPress
-Version: 1.3.4
+Version: 1.3.8
 Author: Steve Williams
 Author URI: http://www.netguysteve.com/
 License: GPLv2
@@ -37,7 +37,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  * Current SAM Integrator Database Version
  */
 global $ngs_sam_integrator_db_ver;
-$ngs_sam_integrator_db_ver = "1.3.4";
+$ngs_sam_integrator_db_ver = "1.3.8";
 
 if ( ! class_exists( "NGS_SAM_Integrator" ) ) {
 	class NGS_SAM_Integrator {
@@ -87,6 +87,9 @@ if ( ! class_exists( "NGS_SAM_Integrator" ) ) {
 				'byrequestspageid' => null,
 				'showqueuetime' => 'true',
 				'defaultresults' => 50,
+                                'showartplaynow' => 'true',
+                                'artpnh' => '60',
+                                'artpnw' => '60',
 				'showartplayed' => 'true',
 				'artph' => '60',
 				'artpw' => '60',
@@ -96,6 +99,9 @@ if ( ! class_exists( "NGS_SAM_Integrator" ) ) {
 				'showartque' => 'true',
 				'artqh' => '60',
 				'artqw' => '60',
+				'showtimereq' => 'false',
+				'showtimeplay'=> 'false',
+				'showtimeque'=> 'false',
 				'status601' => 'Song has been recently played',
 				'status602' => 'Artist has been recently played',
 				'status603' => 'That song is already in the queue and will play shortly',
@@ -264,6 +270,20 @@ if ( ! class_exists( "NGS_SAM_Integrator" ) ) {
                                         $ngs_options['artqh'] = $_POST['ngs_show_album_art_queued_height'];
 				if ( isset( $_POST['ngs_show_album_art_queued_height'] ) )
                                         $ngs_options['artqw'] = $_POST['ngs_show_album_art_queued_width'];
+
+                                if ( isset( $_POST['ngs_show_album_art_playing_now'] ) )
+                                        $ngs_options['showartplaynow'] = $_POST['ngs_show_album_art_playing_now'];
+                                if ( isset( $_POST['ngs_show_album_art_playing_now_height'] ) )
+                                        $ngs_options['artpnh'] = $_POST['ngs_show_album_art_playing_now_height'];
+                                if ( isset( $_POST['ngs_show_album_art_playing_now_height'] ) )
+                                        $ngs_options['artpnw'] = $_POST['ngs_show_album_art_playing_now_width'];
+
+                                if ( isset( $_POST['ngs_show_album_time_played'] ) )
+                                        $ngs_options['showtimeplay'] = $_POST['ngs_show_album_time_played'];
+                                if ( isset( $_POST['ngs_show_album_time_queued'] ) )
+                                        $ngs_options['showtimeque'] = $_POST['ngs_show_album_time_queued'];
+                                if ( isset( $_POST['ngs_show_album_time_queued'] ) )
+                                        $ngs_options['showtimereq'] = $_POST['ngs_show_album_time_request'];
 
 				$ngs_options = $this->validate_admin_options( $ngs_options );
 				update_option( $this->admin_options_name, $ngs_options );
