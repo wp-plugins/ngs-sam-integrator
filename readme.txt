@@ -4,7 +4,7 @@ Donate link: http://www.netguysteve.com/sam-integrator
 Tags: SAM Broadcaster, Internet Radio, Streaming, Broadcasting
 Requires at least: 3.5.0
 Tested up to: 4.2.2
-Stable tag: 1.3.4
+Stable tag: 1.3.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -69,6 +69,12 @@ default, these ports are 1221 for SAM Broadcaster and 3306 for MySQL.
 Once this is done, the hard part is out of the way.  Installation and configuration 
 of the plug-in itself is very easy and straight forward.
 
+= Album Art =
+1. Add folder to root directory of your wordpress called "sam"
+2. chmod 777 sam folder
+3. setup sam broadcaster to upload album art images to this folder.
+
+
 = Manual Installation Instructions =
 1.  Upload the NGS SAM Integrator Plug-In to your Wordpress Site and Activate it
 2.  Open the NGS SAM Integrator Settings
@@ -132,6 +138,36 @@ Broadcaster client.
 
 == Changelog ==
 
+= 1.3.9 =
+ - Added "Album Art Directory" setting to album art settings page
+   - Use the setting to tell the plugin where your album art folder is located.
+ - Moved settings for "Playing Now" widget to it's own tab
+ - Added link settings and icons for popular players of streaming music
+   - Now you can embed links to playfiles for your stream in the "Playing Now"
+     widget. Common filetypes are:
+	PLS -> For Winamp and VLC
+        ASX -> For Windows Media Player
+	QTL -> For QuickTime and RealPlayer
+	RAM -> For iTunes
+ - Added color setting for "Playing Now" text.
+   -when Linked Icons for players is disabled the "Playing Now" text becomes 
+    visible, this setting will allow you to change that color to suit your theme.
+        - will accept default CSS color names, such as white, blue, red, etc...
+        - will accept full HTML color color palette (eg. #FFFFFF == white)
+
+= 1.3.8 =
+ - Added "Playing Now" Widget and options.
+   - With the new widget, you can use it to display the track currently playing.
+
+= 1.3.7 =
+ - Enable/Disable feature added for song information widgets
+   - You can now enable and disable song information within the widgets
+
+= 1.3.6 =
+ - NEW FEATURE: Album Art
+    - Now you can upload your album covers to the site, and decide if you want
+      to show them in the widgets and request pages
+
 = 1.3.0 =
  - NEW FEATURE: Request Throttle for Unregistered Users
     - Settings mimic SAM Broadcaster Pro configuration but only affect
@@ -177,6 +213,18 @@ worked for a later release (Likely the 1.1 release).
 Initial Public Release
 
 == Upgrade Notice ==
+
+= 1.3.9 =
+Added setting for art folder, linkable icons for popular players, and 'Playing Now' text color option.
+= 1.3.8 =
+Added "Playing Now" Widget and options to fulfill request. Further edits planned for the future
+to add more features and funcitonality such as stream link buttons and icons.
+
+= 1.3.7 =
+Enable/Disable feature added for song information widgets
+
+= 1.3.6 =
+Album Art feature added
 
 = 1.3.0 =
  NEW FEATURE: Request Throttle for Unregistered Users
