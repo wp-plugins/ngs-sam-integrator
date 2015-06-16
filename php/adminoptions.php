@@ -19,6 +19,7 @@
 		<a href="?page=ngs-sam-integrator&tab=connections" class="nav-tab <?php echo $active_tab == 'connections' ? 'nav-tab-active' : ''; ?>">Connections</a>
 		<a href="?page=ngs-sam-integrator&tab=pages" class="nav-tab <?php echo $active_tab == 'pages' ? 'nav-tab-active' : ''; ?>">Pages</a>
 		<a href="?page=ngs-sam-integrator&tab=album_art" class="nav-tab <?php echo $active_tab == 'album_art' ? 'nav-tab-active' : ''; ?>">Album Art</a>
+                <a href="?page=ngs-sam-integrator&tab=playing_now" class="nav-tab <?php echo $active_tab == 'playing_now' ? 'nav-tab-active' : ''; ?>">Playing Now</a>
 		<a href="?page=ngs-sam-integrator&tab=status_messages" class="nav-tab <?php echo $active_tab == 'status_messages' ? 'nav-tab-active' : ''; ?>">Status Messages</a>
 		<a href="?page=ngs-sam-integrator&tab=request_throttle" class="nav-tab <?php echo $active_tab == 'request_throttle' ? 'nav-tab-active' : ''; ?>">Request Throttling</a>
 	</h2>
@@ -72,16 +73,6 @@ if ( 'pages' == $active_tab ) { ?>
 if ( 'album_art' == $active_tab ) { ?>
 <h2>Widget Album Art:</h2>
 
-<h3>Playing Now</h3>
-        <label for="ngs_show_album_art_playing_now_yes"><?php _e('Enable: '); ?></label>
-                 <input type="radio" id="ngs_show_album_art_playing_now_yes" name="ngs_show_album_art_playing_now" value="true" <?php if ( "true" == $ngs_options['showartplaynow'] ) echo 'checked="checked" '; ?> /> Yes </label>&nbsp;
-        <label for="ngs_show_album_art_playing_now_no">
-                  <input type="radio" id="ngs_show_album_art_playing_now_no" name="ngs_show_album_art_playing_now" value="false" <?php if ( "false" == $ngs_options['showartplaynow'] ) echo 'checked="checked" '; ?> /> No </label><br />
-        <label for="ngs_show_album_art_playing_now_height"><?php _e('Height'); ?></label>
-                <input name="ngs_show_album_art_playing_now_height" type="number" step="1" min="0" id="ngs_show_album_art_playing_now_height" value="<?php echo $ngs_options['artpnh'];; ?>" class="small-text" />
-        <label for="ngs_show_album_art_playing_now_width"><?php _e('Width'); ?></label>
-                <input name="ngs_show_album_art_playing_now_width" type="number" step="1" min="0" id="ngs_show_album_art_playing_now_width" value="<?php echo $ngs_options['artpnw'];; ?>" class="small-text" /><br />
-
 <h3>Recently Played</h3>   
         <label for="ngs_show_album_art_played_yes"><?php _e('Enable: '); ?></label>
                 <input type="radio" id="ngs_show_album_art_played_yes" name="ngs_show_album_art_played" value="true" <?php if ( "true" == $ngs_options['showartplayed'] ) echo 'checked="checked" '; ?> /> Yes </label>&nbsp;
@@ -114,7 +105,7 @@ if ( 'album_art' == $active_tab ) { ?>
 
 <h3>Requested</h3>   
         <label for="ngs_show_album_art_request_yes"><?php _e('Enable: '); ?></label>
-                <input type="radio" id="ngs_show_album_art_request_yes" name="ngs_show_album_art_request" value="true" <?php if ( "true" == $ngs_options['showartreq'] ) echo 'checked="checked" '; ?> /> Yes </label>&nbsp;
+                 <input type="radio" id="ngs_show_album_art_request_yes" name="ngs_show_album_art_request" value="true" <?php if ( "true" == $ngs_options['showartreq'] ) echo 'checked="checked" '; ?> /> Yes </label>&nbsp;
         <label for="ngs_show_album_art_request_no">
                  <input type="radio" id="ngs_show_album_art_request_no" name="ngs_show_album_art_request" value="false" <?php if ( "false" == $ngs_options['showartreq'] ) echo 'checked="checked" '; ?> /> No </label><br />
 	<label for="ngs_show_album_art_request_height"><?php _e('Height'); ?></label>
@@ -129,15 +120,61 @@ if ( 'album_art' == $active_tab ) { ?>
 
 
 <h3>Album Art Location:</h3>  
-<h4>If enabled above, you will need to create a folder called "sam" in your root directory.<br />
+	<label for="ngs_album_art_dir"><?php _e('Directory: '); ?></label>
+		<input type="text" name="ngs_album_art_dir" value="<?php echo $ngs_options['ngsartdir']; ?>" />
+
+<h4><p>In order to use the album art feature, you must first create the album art directory.<br />
+	Once you have created the directory in the root folder of your wordpress site, use the settings above<br />
         You can set up Sam Broadcaster to upload images to this directory using FTP<br />
         Make sure the directory permissions are 775, or 777.<br />
-        To do this, use the permissions option from your FTP program, or log into shell,<br />
-        navigate to where your wordpress files are located, and within the wordpress<br />
-        folder that contains the sam images folder, issue the following command:<br /><br />
-        <strong>chmod -R 777 sam</strong>
+        To do this, use the permissions menu in your FTP program, or log into shell, navigate to where your<br /> 
+	wordpress files are located, and within the wordpress folder that contains the album art folder you <br />
+	created earlier, issue the following command:</p>
+        <h3><strong>chmod -R 777 sam</strong></h3>
         </h4>
 <?php }
+
+if ( 'playing_now' == $active_tab ) { ?>
+<h2>Playing Now Widget:</h2>
+<h3>Playing Now</h3>
+        <label for="ngs_show_album_art_playing_now_yes"><?php _e('Enable: '); ?></label>
+                 <input type="radio" id="ngs_show_album_art_playing_now_yes" name="ngs_show_album_art_playing_now" value="true" <?php if ( "true" == $ngs_options['showartplaynow'] ) echo 'checked="checked" '; ?> /> Yes </label>&nbsp;
+        <label for="ngs_show_album_art_playing_now_no">
+                   <input type="radio" id="ngs_show_album_art_playing_now_no" name="ngs_show_album_art_playing_now" value="false" <?php if ( "false" == $ngs_options['showartplaynow'] ) echo 'checked="checked" '; ?> /> No </label><br />
+        <label for="ngs_show_album_art_playing_now_height"><?php _e('Height'); ?></label>
+                <input name="ngs_show_album_art_playing_now_height" type="number" step="1" min="0" id="ngs_show_album_art_playing_now_height" value="<?php echo $ngs_options['artpnh'];; ?>" class="small-text" />
+        <label for="ngs_show_album_art_playing_now_width"><?php _e('Width'); ?></label> 
+                 <input name="ngs_show_album_art_playing_now_width" type="number" step="1" min="0" id="ngs_show_album_art_playing_now_width" value="<?php echo $ngs_options['artpnw'];; ?>" class="small-text" /><br />
+
+<h3>'Playing Now' Text:</h3>          
+<h4> If linked icons are disabled below, you will see the text "Playing Now" under the current track.<br />          
+Use this setting to color it. Accepts normal CSS color names, as well as numbered HTML Colors <br />      
+(e.g. white can be #FFFFFF, or #FFF, or white) </h4>                  
+<label for="ngs_pncolor"><?php _e('Color:'); ?></label>            
+<input type="text" id="ngs_pncolor" name="ngs_pncolor" value="<?php echo $ngs_options['pncolor']; ?>" /><br /><br />
+
+<h3>Show Player Links</h3>
+<h4>Adds Linked icons for popular players to "Playing Now Widget".</h4>
+        <label for="ngs_show_links_yes"><?php _e('Enable: '); ?></label>
+                   <input type="radio" id="ngs_show_links_yes" name="ngs_show_links" value="true" <?php if ( "true" == $ngs_options['showlinks'] ) echo 'checked="checked" '; ?> /> Yes </label>
+        <label for="ngs_show_links_no">
+                   <input type="radio" id="ngs_show_links_no" name="ngs_show_links" value="false" <?php if ( "false" == $ngs_options['showlinks'] ) echo 'checked="checked" '; ?> /> No </label><br />
+
+
+<h4>Winamp/VLC</h3>
+<label for="ngs_win"><?php _e('PLS File Location:'); ?></label>
+<input type="text" id="ngs_winvlc" name="ngs_winvlc" value="<?php echo $ngs_options['winvlc']; ?>" />
+<h4>Windows Media Player ASX</h4>
+<label for="ngs_win"><?php _e('ASX File Location:'); ?></label>  
+<input type="text" id="ngs_winmp" name="ngs_winmp" value="<?php echo $ngs_options['winmp']; ?>" />
+<h4>QuickTime/RealPlayer</h4>
+<label for="ngs_winqtl"><?php _e('QTL File Location:'); ?></label>  
+<input type="text" id="ngs_winqtl" name="ngs_winqtl" value="<?php echo $ngs_options['winqtl']; ?>" />
+<h4>iTunes</h4>
+<label for="ngs_wintns"><?php _e('RAM File Location:'); ?></label>  
+<input type="text" id="ngs_wintns" name="ngs_wintns" value="<?php echo $ngs_options['wintns']; ?>" />
+<?php }
+
 
 if ( 'status_messages' == $active_tab ) { ?>
 <h2>Custom Status Messages</h2>

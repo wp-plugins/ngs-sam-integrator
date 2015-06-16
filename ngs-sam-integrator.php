@@ -4,7 +4,7 @@
 Plugin Name: NGS SAM Integrator
 Plugin URI: http://www.netguysteve.com/sam-integrator/
 Description: Plug-In to integrate SAM Broadcaster with WordPress
-Version: 1.3.8
+Version: 1.3.9
 Author: Steve Williams
 Author URI: http://www.netguysteve.com/
 License: GPLv2
@@ -37,7 +37,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  * Current SAM Integrator Database Version
  */
 global $ngs_sam_integrator_db_ver;
-$ngs_sam_integrator_db_ver = "1.3.8";
+$ngs_sam_integrator_db_ver = "1.3.9";
 
 if ( ! class_exists( "NGS_SAM_Integrator" ) ) {
 	class NGS_SAM_Integrator {
@@ -99,6 +99,12 @@ if ( ! class_exists( "NGS_SAM_Integrator" ) ) {
 				'showartque' => 'true',
 				'artqh' => '60',
 				'artqw' => '60',
+				'showlinks' => 'true',
+				'pncolor' => 'red',
+				'winvlc' => 'http://blah.com/listen.pls',
+				'winmp' => 'http://blah.com/listen.asx',
+				'winqtl' => 'http://blah.com/listen.qtl',
+				'wintns' => 'http://blah.com/listen.ram',
 				'showtimereq' => 'false',
 				'showtimeplay'=> 'false',
 				'showtimeque'=> 'false',
@@ -110,6 +116,7 @@ if ( ! class_exists( "NGS_SAM_Integrator" ) ) {
 				'status606' => 'That artist is already in the request list and will play shortly',
 				'status609' => 'Track has been recently played',
 				'enablethrottling' => 'false',
+				'ngsartdir' => '/sam/',
 				'throttlenumber' => 5,
 				'throttleminutes' => 30,
 				'throttledaily' => 25,
@@ -284,6 +291,22 @@ if ( ! class_exists( "NGS_SAM_Integrator" ) ) {
                                         $ngs_options['showtimeque'] = $_POST['ngs_show_album_time_queued'];
                                 if ( isset( $_POST['ngs_show_album_time_queued'] ) )
                                         $ngs_options['showtimereq'] = $_POST['ngs_show_album_time_request'];
+
+                                if ( isset( $_POST['ngs_pncolor'] ) )
+                                        $ngs_options['pncolor'] = $_POST['ngs_pncolor'];
+				if ( isset( $_POST['ngs_show_links'] ) )         
+                                        $ngs_options['showlinks'] = $_POST['ngs_show_links'];
+                                if ( isset( $_POST['ngs_winvlc'] ) )
+                                        $ngs_options['winvlc'] = $_POST['ngs_winvlc'];
+                                if ( isset( $_POST['ngs_winmp'] ) )
+                                        $ngs_options['winmp'] = $_POST['ngs_winmp'];
+                                if ( isset( $_POST['ngs_winqtl'] ) )
+                                        $ngs_options['winqtl'] = $_POST['ngs_winqtl'];
+                                if ( isset( $_POST['ngs_wintns'] ) )
+                                        $ngs_options['wintns'] = $_POST['ngs_wintns'];
+
+                                if ( isset( $_POST['ngs_album_art_dir'] ) )
+                                        $ngs_options['ngsartdir'] = $_POST['ngs_album_art_dir'];
 
 				$ngs_options = $this->validate_admin_options( $ngs_options );
 				update_option( $this->admin_options_name, $ngs_options );

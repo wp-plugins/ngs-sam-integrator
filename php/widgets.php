@@ -64,7 +64,7 @@ class ngs_top_req_widget extends WP_Widget
 						$output = $output.'<td>'.$row_number++.'  </td>';
 						 $output = $output.'<td>'.$song_info['artist'].'<br />'.$song_info['title'];
 					} else {
-						$output = $output.'<td><img src="/sam/'.$song_info['album'].'" height="'.$ngs_options['artrh'].'" width="'.$ngs_options['artrw'].'">'.$song_info['artist'].'<br />'.$song_info['title'];
+						$output = $output.'<td><img src="'.$ngs_options['ngsartdir'].$song_info['album'].'" height="'.$ngs_options['artrh'].'" width="'.$ngs_options['artrw'].'">'.$song_info['artist'].'<br />'.$song_info['title'];
 					}
 					$output = $output.'&nbsp;&nbsp;('.$song_info['requestcount'].')</td>';
 					if ( $ngs_options['showtimereq'] == 'true' ) {
@@ -96,6 +96,7 @@ class ngs_top_req_widget extends WP_Widget
 			'showartreq' => 'true',
 			'artqh' => '60',
 			'artqw' => '60',
+			'ngsartdir' => '/sam/',
 		);
 		$saved_options = get_option( $this->admin_options_name );
 		if ( ! empty( $saved_options ) ) {
@@ -166,7 +167,7 @@ class ngs_upcoming_tracks_widget extends WP_Widget
 						$output = $output.'<td>'.$row_number++.'</td>';
 						$output = $output.'<td><center><strong>'.$song_info['artist'].'</strong><br />'.$song_info['title'].'</center></td>';
 					} else {
-						$output = $output.'<td><center><img src="/sam/'.$song_info['album'].'" height="'.$ngs_options['artqh'].'" width="'.$ngs_options['artqw'].'"><br /><strong>'.$song_info['artist'].'</strong><br />'.$song_info['title'].'</center></td>';
+						$output = $output.'<td><center><img src="'.$ngs_options['ngsartdir'].$song_info['album'].'" height="'.$ngs_options['artqh'].'" width="'.$ngs_options['artqw'].'"><br /><strong>'.$song_info['artist'].'</strong><br />'.$song_info['title'].'</center></td>';
 					}
 					if ( $ngs_options['showtimeque'] == 'true' ) {
 						$output = $output.'<td>'.$song_info['formattedduration'].'</td>';
@@ -197,6 +198,7 @@ class ngs_upcoming_tracks_widget extends WP_Widget
 			'showartque' => 'true',
 			'artqh' => '60',
 			'artqw' => '60',
+			'ngsartdir' => '/sam/',
 		);
 		$saved_options = get_option( $this->admin_options_name );
 		if ( ! empty( $saved_options ) ) {
@@ -275,7 +277,7 @@ class ngs_recently_played_widget extends WP_Widget
 					if ( $ngs_options['showartplayed'] == 'false' ) {
 					 $output = $output.'<td><center>'.( 0 == $row_number ? '<strong>' : '').$song_info['artist'].'<br />'.$song_info['title'].'</td>';
 					} else {
-					$output = $output.'<td><center><img src="/sam/'.$song_info['album'].'" height="'.$ngs_options['artph'].'" width="'.$ngs_options['artpw'].'"><br /><strong>'.$song_info['artist'].'<br />'.$song_info['title'].'</strong></center></td>';
+					$output = $output.'<td><center><img src="'.$ngs_options['ngsartdir'].$song_info['album'].'" height="'.$ngs_options['artph'].'" width="'.$ngs_options['artpw'].'"><br /><strong>'.$song_info['artist'].'<br />'.$song_info['title'].'</strong></center></td>';
 					}
 					$output = $output.( 0 == $row_number ? '</strong>' : '').'</td>';
 					if ( $ngs_options['showtimeplay'] == 'true' ) {
@@ -308,6 +310,7 @@ class ngs_recently_played_widget extends WP_Widget
 			'showartplayed' => 'true',
 			'artph' => '60',
 			'artpw' => '60',
+			'ngsartdir' => '/sam/',
 		);
 		$saved_options = get_option( $this->admin_options_name );
 		if ( ! empty( $saved_options ) ) {
@@ -373,11 +376,27 @@ class ngs_playing_now_widget extends WP_Widget
                         {
                                 $output = $output."The List is Empty\n";
                         } else {
-                                foreach ( $songlist as $song ) {
+				if ( $ngs_options['showlinks'] == 'true' ) {
+					$logovlc = plugins_url( '../images/winamp.png', __FILE__ ); 
+					$logowmp = plugins_url( '../images/wmp.png', __FILE__ ); 
+					$logoqtl = plugins_url( '../images/quick.png', __FILE__ ); 
+					$logoitns = plugins_url( '../images/itunes.png', __FILE__ ); 
+					$output = $output.'<tr">';
+					$output = $output.'<td width="40"><a href="'.$ngs_options['winvlc'].'"><img src="'.$logovlc.'" height="30" width="30" title="Listen in with VLC or Winamp" /></a></td>';
+					$output = $output.'<td width="40"><a href="'.$ngs_options['winmp'].'"><img src="'.$logowmp.'" height="30" width="30" title="Listen in with Windows Media Player" /></a></td>';
+					$output = $output.'<td width="40"><a href="'.$ngs_options['winqtl'].'"><img src="'.$logoqtl.'" height="30" width="30" title="Listen in with QuickTime or RealPlayer" /></a></td>';
+					$output = $output.'<td width="40"><a href="'.$ngs_options['wintns'].'"><img src="'.$logoitns.'" height="30" width="30" title="Listen in with iTunes" /></a></td>';
+					//$output = $output.'</tr>';
+				} else {
+					null;
+				}
+			 foreach ( $songlist as $song ) {
                                         $song_info = prepare_widget_song( $song, 0, $numtoshow );
                                         $output = $output.'<tr>';
-                                        if ( 0 == $row_number )
-                                                $output = $output.'<td><center><strong>Playing Now</strong></center></td><tr>';
+                                        if ( 0 == $row_number && $ngs_options['showlinks'] == 'true' )
+						null;
+					else if ( 0 == $row_number )
+                                                $output = $output.'<td><center><strong><h3 style="color:'.$ngs_options['pncolor'].';">Playing Now</h3></strong></center></td><tr>';
                                         else {
                                             if ( $ngs_options['showartplaynow'] == 'false' ) {
                                                 $output = $output.'<td>'.$row_number.'</td></tr>';
@@ -388,7 +407,7 @@ class ngs_playing_now_widget extends WP_Widget
                                         if ( $ngs_options['showartplaynow'] == 'false' ) {
                                          $output = $output.'<td><center>'.( 0 == $row_number ? '<strong>' : '').$song_info['artist'].'<br />'.$song_info['title'].'</td>';
                                         } else {
-                                        $output = $output.'<td><center><img src="/sam/'.$song_info['album'].'" height="'.$ngs_options['artpnh'].'"width="'.$ngs_options['artpnw'].'"><br /><strong>'.$song_info['artist'].'<br />'.$song_info['title'].'</strong></center></td>';
+                                        $output = $output.'<tdalign="right"><center><img src="'.$ngs_options['ngsartdir'].$song_info['album'].'" height="'.$ngs_options['artpnh'].'"width="'.$ngs_options['artpnw'].'"><br /><strong>'.$song_info['artist'].'<br />'.$song_info['title'].'</strong></center></td>';
 
                                         }
                                         $output = $output.( 0 == $row_number ? '</strong>' : '').'</td>';
@@ -422,6 +441,7 @@ class ngs_playing_now_widget extends WP_Widget
                         'showartplaynow' => 'true',
                         'artpnh' => '60',
                         'artpnw' => '60',
+			'ngsartdir' => '/sam/',
                 );
                 $saved_options = get_option( $this->admin_options_name );
                 if ( ! empty( $saved_options ) ) {
